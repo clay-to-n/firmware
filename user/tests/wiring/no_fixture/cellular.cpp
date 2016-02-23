@@ -83,3 +83,23 @@ test(device_will_connect_to_the_cloud_when_all_udp_sockets_consumed) {
 }
 
 #endif
+
+#if Wiring_Cellular == 1
+
+void checkIPAddress(const char* name, const IPAddress& address)
+{
+	if (address.version()==0 || address[0]==0)
+	{
+		Serial.print("address failed:");
+		Serial.println(name);
+		assertNotEqual(address.version(), 0);
+		assertNotEqual(address[0], 0);
+	}
+}
+
+test(cellular_config)
+{
+	checkIPAddress("local", Cellular.localIP());
+}
+
+#endif
